@@ -32,6 +32,11 @@ async function registerUser(req, res) {
         return res.status(400).json({ message: 'Username already taken' });
     }
 
+    // check passowrd complexity
+    if (Password.length < 10) {
+        return res.status(400).json({ message: 'Password must be at least 10 characters long' });
+    }
+
     const HashedPassword = await bcrypt.hash(Password, 10);
 
     const newUser = await User.create({
@@ -61,7 +66,11 @@ async function registerUser(req, res) {
     .cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' })
     .json({ message: 'User registered successfully', user: newUser });
   } catch (error) {
+    if (error.name === 'SequelizeValidationError') {
+        return res.status(400).json({ message: error.errors[0].message });
+    }
     console.error('Error during user registration:', error);
+
     res.status(500).json({ message: 'Internal server error' });
   }
 }
@@ -72,6 +81,7 @@ async function registerSeller(req, res) {
   try {
     // check if the seller already exists
     const existingSeller = await Seller.findOne({ where: { Email } });
+
     if (existingSeller) {
       return res.status(400).json({ message: 'Seller already exists' });
     }
@@ -82,6 +92,10 @@ async function registerSeller(req, res) {
       return res.status(400).json({ message: 'Seller already exists as a user' });
     }
 
+    // check passowrd complexity
+    if (Password.length < 10) {
+        return res.status(400).json({ message: 'Password must be at least 10 characters long' });
+    }
     const HashedPassword = await bcrypt.hash(Password, 10);
 
     const newSeller = await Seller.create({
@@ -107,6 +121,10 @@ async function registerSeller(req, res) {
     .cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' })
     .json({ message: 'Seller registered successfully', seller: newSeller });
   } catch (error) {
+    if (error.name === 'SequelizeValidationError') {
+        return res.status(400).json({ message: error.errors[0].message });
+    }
+
     console.error('Error during seller registration:', error);
     res.status(500).json({ message: 'Internal server error' });
   }

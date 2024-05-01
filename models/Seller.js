@@ -9,6 +9,7 @@ const Seller = sequelize.define('Seller', {
       primaryKey: true,
       autoIncrement: true
     },
+    uname: DataTypes.STRING,
     DisplayName: DataTypes.STRING,
     Email: DataTypes.STRING,
     Bank_Acc_No: DataTypes.STRING,

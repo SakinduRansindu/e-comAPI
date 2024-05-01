@@ -8,6 +8,11 @@ module.exports = (sequelize,DataTypes)=>{
       primaryKey: true,
       autoIncrement: true
     },
+    uname: {
+      type:DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
     FirstName: DataTypes.STRING,
     LastName: DataTypes.STRING,
     Email: DataTypes.STRING,

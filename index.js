@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 
 const db = require('./models')
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
 
 const { User, Seller, Session, SellerSocialMediaLinks, Product, ProductImgs, Purchase } = db;
 
@@ -16,6 +19,12 @@ ProductImgs.belongsTo(Product, { foreignKey: 'ProductId' });
 
 Seller.hasMany(SellerSocialMediaLinks, { foreignKey: 'SId' });
 SellerSocialMediaLinks.belongsTo(Seller, { foreignKey: 'SId' });
+
+Session.hasMany(User, { foreignKey: 'uname' });
+User.belongsTo(Session, { foreignKey: 'uname' });
+
+Session.hasMany(Seller, { foreignKey: 'uname' });
+Seller.belongsTo(Session, { foreignKey: 'uname' });
 
 
 

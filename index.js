@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const createDatabaseIfNotExists = require('./utils/createDatabaseIfNotExists');
 
 const db = require('./models')
 const bodyParser = require('body-parser');
@@ -26,11 +27,13 @@ User.belongsTo(Session, { foreignKey: 'uname' });
 Session.hasMany(Seller, { foreignKey: 'uname' });
 Seller.belongsTo(Session, { foreignKey: 'uname' });
 
-
-
-db.sequelize.sync().then((req)=>{
-    app.listen(3001, ()=>{
-        console.log("server running...");
-    })
+createDatabaseIfNotExists().then(() => {
+    db.sequelize.sync().then(() => {
+        app.listen(3001, () => {
+        console.log('Server running on http://localhost:3001');
+        });
+    });
+    }).catch((error) => {
+    console.error('Error creating database:', error);
+    throw error;
 });
-

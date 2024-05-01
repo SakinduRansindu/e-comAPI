@@ -1,20 +1,25 @@
 const express = require("express");
 const session = require('express-session');
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
-const app = express();
-const createDatabaseIfNotExists = require('./utils/createDatabaseIfNotExists');
+var cookieParser = require('cookie-parser')
 
+const createDatabaseIfNotExists = require('./utils/createDatabaseIfNotExists');
 const db = require('./models')
+
+
+const app = express();
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cookieParser());
 
 function extendDefaultFields(defaults, session) {
     return {
       jwt: defaults.jwt,
       expires: defaults.expires,
       userId: session.userId,
+      role: session.role,
     };
   }
   
@@ -23,9 +28,6 @@ const sessionStore = new SequelizeStore({
     table: "Session",
     extendDefaultFields: extendDefaultFields,
   });
-  
-// Sync the session store with the database
-sessionStore.sync();
 
 // Set up express-session middleware
 app.use(session({
@@ -68,11 +70,19 @@ Session.belongsTo(Seller);;
 
 createDatabaseIfNotExists().then(() => {
     db.sequelize.sync().then(() => {
-        app.listen(3001, () => {
-        console.log('Server running on http://localhost:3001');
+        //sync session store with db
+        sessionStore.sync().then(() => {
+            app.listen(3001, () => {
+                console.log('Server running on http://localhost:3001');
+            });
+        }).catch((error) => {
+            console.error('Error synchronizing session store:', error);
         });
-    });
     }).catch((error) => {
+        console.error('Error syncing database:', error);
+        throw error;
+    });
+}).catch((error) => {
     console.error('Error creating database:', error);
     throw error;
 });

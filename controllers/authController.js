@@ -3,9 +3,12 @@ const passport = require('../utils/passport');
 const generateJWT  = require('../utils/generateJWT');
 
 
+
 var User = require('../models').User;
 var Seller = require('../models').Seller;
 var Session = require('../models').Session;
+const jwt = require('jsonwebtoken');
+const user = require('../models/user');
 
 async function registerUser(req, res) {
   const { uname, FirstName, LastName, Email, Password, Account_No, Card_CVC, Card_Exp, Phone_No, ProfilePicture } = req.body;
@@ -44,15 +47,19 @@ async function registerUser(req, res) {
       ProfilePicture,
     });
 
-    // create session
-    // await Session.create({
-    //   uname: newUser.uname,
-    //   jwt: generateJWT(newUser),
-    //   role: 'user',
-    //   expireDate: new Date(Date.now() + 3600000), // exp in 1 hour
-    // });
+    const token = generateJWT(newUser);
 
-    res.status(201).json({ message: 'User registered successfully', user: newUser }).cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' });
+    // create session
+    await Session.create({
+        userId: newUser.UId,
+        role: 'User',
+        expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+        jwt: token
+    }); 
+
+    res.status(201)
+    .cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' })
+    .json({ message: 'User registered successfully', user: newUser });
   } catch (error) {
     console.error('Error during user registration:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -86,17 +93,19 @@ async function registerSeller(req, res) {
       ProfilePicture,
     });
 
-    // create a new session
-    // await Session.create({
-    //   uname: newSeller.uname,
-    //   jwt: generateJWT(newSeller),
-    //   role: 'seller',
-    //   expireDate: new Date(Date.now() + 3600000), // exp in 1 hour
-    // });
+    const token = generateJWT(newSeller);
 
+    // create session
+    await Session.create({
+        userId: newSeller.UId,
+        role: 'Seller',
+        expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+        jwt: token
+    }); 
 
-
-    res.status(201).json({ message: 'Seller registered successfully', seller: newSeller }).cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' });
+    res.status(201)
+    .cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' })
+    .json({ message: 'Seller registered successfully', seller: newSeller });
   } catch (error) {
     console.error('Error during seller registration:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -112,12 +121,12 @@ async function login(req, res) {
     // check if the user exists
     const user = await User.findOne({ where: { Email: email } });
     let seller = null;
-    let userType = 'user';
+    let userType = 'User';
     console.log(user);
     if (!user) {
       // check if the seller exists
         seller = await Seller.findOne({ where: { Email: email } });
-        userType = 'seller';
+        userType = 'Seller';
         if (!seller) {
             console.log('Not even seller?');
 
@@ -128,7 +137,7 @@ async function login(req, res) {
     }
 
     
-    const hashedPassword = userType === 'user' ? user.HashedPassword : seller.HashedPassword;
+    const hashedPassword = userType === 'User' ? user.HashedPassword : seller.HashedPassword;
 
 
     const isPasswordValid = await bcrypt.compare(password, hashedPassword);
@@ -139,13 +148,18 @@ async function login(req, res) {
 
     try {
         userInfo = user || seller;
+        id = user ? user.UId : seller.SId;
         const token = generateJWT(userInfo);
-        // await Session.create({
-        //   uname: userType === 'user' ? user.uname : seller.uname,
-        //   jwt: token,
-        //   role: userType,
-        //   expireDate: new Date(Date.now() + 3600000), // exp in 1 hour
-        // });
+        // if there is an existing session, delete it
+        await Session.destroy({ where: { userId: id } });
+
+        // create session
+        await Session.create({
+            userId: id,
+            role: userType,
+            expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+            jwt: token
+        }); 
 
         return res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' }).json({ message: 'Login successful', user: {
             uname: userInfo.uname,
@@ -200,17 +214,32 @@ async function login(req, res) {
 //   }
   
 
-
 async function logout(req, res) {
+    // check if user has a cookie that contains the jwt
+
+    console.log(req.cookies)
+    if (!req.cookies || !req.cookies.jwt) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    // there is a field called jwt in sessiom table
+    // so just check if the jwt string is in the session table
+    // and delete
+    const token = req.cookies.jwt;
+    const decoded = jwt.decode(token);
+    const user = decoded.role === 'User' ? await User.findByPk(decoded.id) : await Seller.findByPk(decoded.id);
+
+    if (!user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
     // find the user session and delete it
-    await Session.destroy({ where: { uname: req.user.uname } });
+    await Session.destroy({ where: { userId: decoded.id } });
 
     res.clearCookie('jwt');
 
-
     res.json({ message: 'Logged out successfully' });
-  }
-
+}
   
 
-module.exports = { registerUser, registerSeller, login };
+module.exports = { registerUser, registerSeller, login, logout};

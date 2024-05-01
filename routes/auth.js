@@ -14,4 +14,6 @@ router.post('/userReg', authController.registerUser);
 
 router.post('/sellerReg', authController.registerSeller);
 
+router.post('/logout', authController.logout);
+
 module.exports = router;

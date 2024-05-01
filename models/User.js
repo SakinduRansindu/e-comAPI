@@ -16,6 +16,7 @@ module.exports = (sequelize,DataTypes)=>{
     FirstName: DataTypes.STRING,
     LastName: DataTypes.STRING,
     Email: DataTypes.STRING,
+    HashedPassword: DataTypes.STRING,
     Account_No: DataTypes.STRING,
     Card_CVC: DataTypes.STRING,
     Card_Exp: DataTypes.STRING,
@@ -26,7 +27,6 @@ return User;
 }
   
 
-  
   // User.hasMany(Purchase, { foreignKey: 'UId' });
   // Purchase.belongsTo(User, { foreignKey: 'UId' });
   

@@ -12,6 +12,7 @@ const Seller = sequelize.define('Seller', {
     uname: DataTypes.STRING,
     DisplayName: DataTypes.STRING,
     Email: DataTypes.STRING,
+    HashedPassword: DataTypes.STRING,
     Bank_Acc_No: DataTypes.STRING,
     Phone_No: DataTypes.STRING,
     ProfilePictureLink: DataTypes.STRING

@@ -1,0 +1,59 @@
+Relational Schema
+
+User(UId,FirstName,LastName,Email,Account_No,Card_CVC,Card_Exp,Phone_No,ProfilePictureLink)
+
+Seller(SId,DisplayName,Email,Bank_Acc_No,Phone_No,ProfilePictureLink)
+
+Session(uname,jwt,role,expireDate)
+
+SellerSocialMediaLinks(SId,linkId,Social_media_link)
+
+Product(ProductId,SId,Category,AvailableUnits,DisplayName,Description,UnitPrice,Discount,DiscountEndDate,views)
+
+ProductImgs(ProductId,imgId,imgUrl)
+
+Purchase(PurchaseId,UId,ProductId,Units,PurchaseDateTime,TotalPrice,state)
+
+
+api endpoints
+
+/login
+params: email/username, password
+response: jwt, roll, userdata...
+
+/sellerReg
+params: DisplayName,Email,Bank_Acc_No,Phone_No,ProfilePicture
+response: 
+
+/userReg
+params: FirstName,LastName,Email,Account_No,Card_CVC,Card_Exp,Phone_No,ProfilePicture
+
+/logout
+params: jwt, uname
+
+/addProduct
+params: SId,Category,AvailableUnits,DisplayName,Description,UnitPrice,Discount,DiscountEndDate,imgs
+
+/updateProduct
+params: SId,Category,AvailableUnits,DisplayName,Description,UnitPrice,Discount,DiscountEndDate,imgs
+
+/deleteProduct
+params: SId
+
+/getProducts
+params: catagory? , sellerName? / SId? , productName?
+
+/getProductDetails
+params: productId
+
+/getSellerOrdersList
+params: SId
+
+/setOrderState
+params: state
+
+/getCustomerOrdersList
+params: UId
+
+/getCustomerOrderState
+params: PurchaseId

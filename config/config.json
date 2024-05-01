@@ -5,7 +5,8 @@
     "database": "ecomdb",
     "host": "localhost",
     "dialect": "mysql",
-    "port": 3306
+    "port": 3306,
+    "jwtSecret": "secret"
   },
   "test": {
     "username": "root",

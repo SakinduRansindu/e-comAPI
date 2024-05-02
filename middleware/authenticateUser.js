@@ -11,7 +11,22 @@ async function authenticateUser(req, res, next) {
     }
 
     const token = req.cookies.jwt;
-    const decoded = jwt.verify(token, 'secret' || process.env.JWT_SECRET); 
+    let decoded;
+    try {
+      decoded = jwt.verify(token, 'secret' || process.env.JWT_SECRET); 
+      if (!decoded) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+    } catch (error) {
+      if (error.name === 'TokenExpiredError') {
+        // clear the cookie
+        res.clearCookie('jwt');
+        return res.status(401).json({ message: 'Token expired' });
+
+      }
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
 
     // Check if session exists
     const session = await Session.findOne({ where: { jwt: token } });
@@ -19,7 +34,6 @@ async function authenticateUser(req, res, next) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-   
     if (new Date(session.expires) < new Date()) {
       await Session.destroy({ where: { userId: decoded.userId } });
       res.clearCookie('jwt');

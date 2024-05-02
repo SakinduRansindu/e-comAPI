@@ -41,8 +41,24 @@ module.exports = (sequelize,DataTypes)=>{
             msg: 'Please enter a unit price'
           }
         },
-        Discount: DataTypes.FLOAT,
-        DiscountEndDate: DataTypes.DATE,
+        Discount: {
+          type: DataTypes.FLOAT,
+          allowNull: {
+            args: false,
+            msg: 'Please enter a discount'
+          },
+          validate: {
+            min: 0,
+            max: 100
+          }
+        },
+        DiscountEndDate: {
+          type: DataTypes.DATE,
+          allowNull: true,
+          validate: {
+            isAfter: new Date().toISOString().split('T')[0]
+          }
+        },  
         views: DataTypes.INTEGER
 
         // SId: DataTypes.INTEGER,

@@ -2,10 +2,11 @@ const express = require("express");
 const session = require('express-session');
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 var cookieParser = require('cookie-parser')
+const path = require('path');
 
 const createDatabaseIfNotExists = require('./utils/createDatabaseIfNotExists');
 const db = require('./models')
-
+const upload = require('./utils/multerConfig');
 
 const app = express();
 
@@ -13,6 +14,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
 function extendDefaultFields(defaults, session) {
     return {

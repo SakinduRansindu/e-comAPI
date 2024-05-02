@@ -9,6 +9,7 @@ module.exports = (sequelize,DataTypes)=>{
           autoIncrement: true
         },
         UId: DataTypes.INTEGER,
+        SId: DataTypes.INTEGER,
         ProductId: DataTypes.INTEGER,
         Units: DataTypes.INTEGER,
         PurchaseDateTime: DataTypes.DATE,

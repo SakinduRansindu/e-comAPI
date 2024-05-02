@@ -70,6 +70,8 @@ Session.belongsTo(User);
 Seller.hasMany(Session); // One seller has many Sessions
 Session.belongsTo(Seller);;
 
+Product.hasMany(Purchase, { foreignKey: 'ProductId' });
+Purchase.belongsTo(Product, { foreignKey: 'ProductId' });
 
 createDatabaseIfNotExists().then(() => {
     db.sequelize.sync().then(() => {

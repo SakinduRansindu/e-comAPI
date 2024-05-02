@@ -198,38 +198,6 @@ async function login(req, res) {
     }
    
   }
-
-
-//   function login(req, res) {
- 
-    // passport.authenticate(['user-local', 'seller-local'], { session: false }, (err, user, info) => {
-    //   if (err || !user) {
-        
-    //     return res.status(401).json({ message: 'Invalid email or password' });
-    //   }
-  
-    //   req.login(user, { session: false }, async (err) => {
-    //     if (err) {
-    //       return res.status(500).json({ message: 'Internal server error' });
-    //     }
-  
-    //     try {
-    //       const token = generateJWT(user);
-    //       await Session.create({
-    //         uname: user.uname,
-    //         jwt: token,
-    //         role: user.constructor.name === 'User' ? 'user' : 'seller',
-    //         expireDate: new Date(Date.now() + 3600000), // exp in 1 hour
-    //       });
-  
-    //       return res.json({ user }).cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' });
-    //     } catch (error) {
-    //       console.error('Error generating JWT or creating session:', error);
-    //       return res.status(500).json({ message: 'Internal server error' });
-    //     }
-    //   });
-    // })(req, res, next);
-//   }
   
 
 async function logout(req, res) {

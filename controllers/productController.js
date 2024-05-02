@@ -1,11 +1,12 @@
 // /addProduct
-// params: SId,Category,AvailableUnits,DisplayName,Description,UnitPrice,Discount,DiscountEndDate,imgs
+// params: Category,AvailableUnits,DisplayName,Description,UnitPrice,Discount,DiscountEndDate,imgs
 
 // /updateProduct
-// params: SId, productId, Category,AvailableUnits,DisplayName,Description,UnitPrice,Discount,DiscountEndDate,imgs
+// params: productId, Category,AvailableUnits,DisplayName,Description,UnitPrice,Discount,DiscountEndDate,imgs[]
+// multipart/form-data, array of imgs
 
 // /deleteProduct
-// params: SId
+// params: productId
 
 // /getProducts
 // params: catagory? , sellerName? / SId? , productName?
@@ -14,11 +15,16 @@
 // params: productId
 
 const Product = require('../models').Product;
+const ProductImgs = require('../models').ProductImgs;
 
 async function addProduct(req, res) {
-    const { Category, AvailableUnits, DisplayName, Description, UnitPrice, Discount, DiscountEndDate, imgs } = req.body;
+    const { Category, AvailableUnits, DisplayName, Description, UnitPrice, Discount, DiscountEndDate } = req.body;
+     
+    const SId  = req.user.SId;
 
-    const { SId } = req.body.user;
+    if ( !Category || !AvailableUnits || !DisplayName || !UnitPrice) {
+        return res.status(400).json({ message: 'Please provide all required fields' });
+    }
 
     try {
         const product = await Product.create({
@@ -29,18 +35,23 @@ async function addProduct(req, res) {
             Description,
             UnitPrice,
             Discount,
-            DiscountEndDate,
-            imgs
+            DiscountEndDate
         });
+
+        if (req.files && req.files.length > 0) {
+            const imgs = req.files.map(file => ({ imgUrl: file.filename }));
+            await ProductImgs.bulkCreate(imgs.map(img => ({ ...img, ProductId: product.id })));
+        }
         return res.status(200).json({ message: 'Product added successfully', product });
     } catch (error) {
         console.error('Error adding product:', error);
         return res.status(500).json({ message: 'Internal server error' });
     }
+    
 }
 
 async function updateProduct(req, res) {
-    const { productId, Category, AvailableUnits, DisplayName, Description, UnitPrice, Discount, DiscountEndDate, imgs } = req.body;
+    const { productId, Category, AvailableUnits, DisplayName, Description, UnitPrice, Discount, DiscountEndDate } = req.body;
     
     // find the product by productId 
     const productExists = await Product.findOne({ where: { ProductId: productId } });
@@ -50,7 +61,7 @@ async function updateProduct(req, res) {
     }
 
     const { SId } = productExists;
-    if (SId != req.body.user.SId) {
+    if (SId != req.user.SId) {
         return res.status(401).json({ message: 'Unauthorized no logged in seller\'s product' });
     }
 
@@ -62,8 +73,7 @@ async function updateProduct(req, res) {
             Description,
             UnitPrice,
             Discount,
-            DiscountEndDate,
-            imgs
+            DiscountEndDate
         }, {
             where: {
                 ProductId: productId,
@@ -87,7 +97,7 @@ async function deleteProduct(req, res) {
     }
 
     const { SId } = productExists;
-    if (SId != req.body.user.SId) {
+    if (SId != req.user.SId) {
         return res.status(401).json({ message: 'Unauthorized no logged in seller\'s product' });
     }
 

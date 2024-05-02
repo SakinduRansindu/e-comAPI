@@ -1,18 +1,19 @@
 const { sequelize } = require(".");
 
 module.exports = (sequelize,DataTypes)=>{
-
-    const Session = sequelize.define('Session', {
-    uname:{
-      type: DataTypes.STRING,
+const session = sequelize.define("Session", {
+    sid: {
+      type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: false
+      autoIncrement: true,
     },
-    jwt: DataTypes.STRING,
+    userId: DataTypes.STRING,
     role: DataTypes.STRING,
-    expireDate: DataTypes.DATE
+    expires: DataTypes.DATE,
+    jwt: DataTypes.TEXT,
   });
   
-return Session;
+  
+return session;
 }
   

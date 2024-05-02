@@ -55,7 +55,7 @@ async function registerUser(req, res) {
     // create session
     await Session.create({
         userId: newUser.UId,
-        role: 'User',
+        role: 'customer',
         expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
         jwt: token
     }); 
@@ -110,7 +110,7 @@ async function registerSeller(req, res) {
     // create session
     await Session.create({
         userId: newSeller.UId,
-        role: 'Seller',
+        role: 'seller',
         expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
         jwt: token
     }); 
@@ -137,19 +137,19 @@ async function login(req, res) {
     // check if the user exists
     const user = await User.findOne({ where: { Email: email } });
     let seller = null;
-    let userType = 'User';
+    let userType = 'customer';
 
     if (!user) {
       // check if the seller exists
         seller = await Seller.findOne({ where: { Email: email } });
-        userType = 'Seller';
+        userType = 'seller';
         console.log("Menna seller",seller)
         if (!seller) {
             return res.status(401).json({ message: 'Invalid email or password' });
         } 
     }
     
-    const hashedPassword = userType === 'User' ? user.HashedPassword : seller.HashedPassword;
+    const hashedPassword = userType === 'customer' ? user.HashedPassword : seller.HashedPassword;
 
 
     const isPasswordValid = await bcrypt.compare(password, hashedPassword);
@@ -172,13 +172,14 @@ async function login(req, res) {
             expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
             jwt: token
         }); 
-
-        return res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' }).json({ message: 'Login successful', user: {
+        console.log(userInfo);
+        return res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' }).status(200).json({ message: 'Login successful', user: {
             uname: userInfo.uname,
-            FirstName: userInfo.FirstName,
+            FirstName: userInfo.FirstName||userInfo.DisplayName,
             LastName: userInfo.LastName,
             Email: userInfo.Email,
             Type: userType,
+            ProfilePicture: userInfo.ProfilePicture,
         } });
 
       } catch (error) {
@@ -207,7 +208,7 @@ async function logout(req, res) {
     // and delete
     const token = req.cookies.jwt;
     const decoded = jwt.decode(token);
-    const user = decoded.role === 'User' ? await User.findByPk(decoded.id) : await Seller.findByPk(decoded.id);
+    const user = decoded.role === 'customer' ? await User.findByPk(decoded.id) : await Seller.findByPk(decoded.id);
 
     if (!user) {
         return res.status(401).json({ message: 'Unauthorized' });

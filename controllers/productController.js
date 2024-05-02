@@ -1,6 +1,9 @@
 // /addProduct
 // params: Category,AvailableUnits,DisplayName,Description,UnitPrice,Discount,DiscountEndDate,imgs
 
+const { where ,include } = require('sequelize');
+const Seller = require('../models/Seller');
+
 // /updateProduct
 // params: productId, Category,AvailableUnits,DisplayName,Description,UnitPrice,Discount,DiscountEndDate,imgs[]
 // multipart/form-data, array of imgs
@@ -140,10 +143,10 @@ async function getProducts(req, res) {
 
         if (Object.keys(whereClause).length > 0) {
             products = await Product.findAll({
-            where: whereClause
             });
         } else {
-            products = await Product.findAll();
+            products = await Product.findAll({
+            });
         }
 
         return res.status(200).json({ products });

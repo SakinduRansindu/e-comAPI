@@ -201,6 +201,7 @@ async function logout(req, res) {
     console.log(req.cookies)
     if (!req.cookies || !req.cookies.jwt) {
         return res.status(401).json({ message: 'Unauthorized' });
+
     }
 
     // there is a field called jwt in sessiom table

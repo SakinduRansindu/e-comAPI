@@ -19,7 +19,7 @@ router.get('/lol', (req, res) => {
 //     res.send('protected');
 // });
 
-router.get('/protected', authenticateUser, roleFilter(["User"]) ,(req, res) => {
+router.get('/protected', authenticateUser, roleFilter(["customer"]) ,(req, res) => {
     res.send('protected');
 });
 

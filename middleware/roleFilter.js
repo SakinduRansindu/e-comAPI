@@ -2,7 +2,7 @@ function roleFilter(roles) {
     return async (req, res, next) => {
       try {
 
-        const userRole = req.body.user.role; 
+        const userRole = req.user.role; 
   
         if (!roles.includes(userRole)) {
           return res.status(403).json({ message: 'Forbidden' });

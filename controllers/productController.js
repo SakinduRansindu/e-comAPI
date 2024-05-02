@@ -18,7 +18,7 @@ const Product = require('../models').Product;
 async function addProduct(req, res) {
     const { Category, AvailableUnits, DisplayName, Description, UnitPrice, Discount, DiscountEndDate, imgs } = req.body;
 
-    const { SId } = req.body.user;
+    const SId  = req.user.SId;
 
     try {
         const product = await Product.create({
@@ -50,7 +50,7 @@ async function updateProduct(req, res) {
     }
 
     const { SId } = productExists;
-    if (SId != req.body.user.SId) {
+    if (SId != req.user.SId) {
         return res.status(401).json({ message: 'Unauthorized no logged in seller\'s product' });
     }
 
@@ -87,7 +87,7 @@ async function deleteProduct(req, res) {
     }
 
     const { SId } = productExists;
-    if (SId != req.body.user.SId) {
+    if (SId != req.user.SId) {
         return res.status(401).json({ message: 'Unauthorized no logged in seller\'s product' });
     }
 

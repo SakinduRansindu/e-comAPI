@@ -33,9 +33,10 @@ async function authenticateUser(req, res, next) {
       return res.status(401).json({ message: 'Unauthorized ...' });
     }
 
-    req.body.user = user.dataValues;
-    req.body.user.role = decoded.role;
+    req.user = user.dataValues;
+    req.user.role = decoded.role;
 
+   // console.log("req.body.user",req.body.user)
     next(); 
   } catch (error) {
     console.error('Error during authentication:', error);

@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-const passport = require('../utils/passport');
 const generateJWT  = require('../utils/generateJWT');
 
 
@@ -8,7 +7,6 @@ var User = require('../models').User;
 var Seller = require('../models').Seller;
 var Session = require('../models').Session;
 const jwt = require('jsonwebtoken');
-const user = require('../models/user');
 
 async function registerUser(req, res) {
   const { uname, FirstName, LastName, Email, Password, Account_No, Card_CVC, Card_Exp, Phone_No, ProfilePicture } = req.body;
@@ -140,20 +138,18 @@ async function login(req, res) {
     const user = await User.findOne({ where: { Email: email } });
     let seller = null;
     let userType = 'User';
-    console.log(user);
+
     if (!user) {
       // check if the seller exists
         seller = await Seller.findOne({ where: { Email: email } });
         userType = 'Seller';
+        console.log("Menna seller",seller)
         if (!seller) {
-            console.log('Not even seller?');
-
             return res.status(401).json({ message: 'Invalid email or password' });
         }
-
-      return res.status(401).json({ message: 'Invalid email or password' });
+    } else {
+        return res.status(401).json({ message: 'Invalid email or password...' });
     }
-
     
     const hashedPassword = userType === 'User' ? user.HashedPassword : seller.HashedPassword;
 

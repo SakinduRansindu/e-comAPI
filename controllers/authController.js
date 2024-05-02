@@ -146,9 +146,7 @@ async function login(req, res) {
         console.log("Menna seller",seller)
         if (!seller) {
             return res.status(401).json({ message: 'Invalid email or password' });
-        }
-    } else {
-        return res.status(401).json({ message: 'Invalid email or password...' });
+        } 
     }
     
     const hashedPassword = userType === 'User' ? user.HashedPassword : seller.HashedPassword;

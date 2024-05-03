@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
 const secret = 'secret' || process.env.JWT_SECRET;
 
 function generateToken(user) {
-    const userRole = user.constructor.name;
+    const userRole = user.constructor.name === 'User' ? 'customer' : 'seller';
 
     const payload = {
-      id: userRole === 'User' ? user.UId : user.SId,
+      id: userRole === 'customer' ? user.UId : user.SId,
       email: user.email,
       role: userRole,
     };

@@ -74,7 +74,9 @@ Product.hasMany(Purchase, { foreignKey: 'ProductId' });
 Purchase.belongsTo(Product, { foreignKey: 'ProductId' });
 
 createDatabaseIfNotExists().then(() => {
-    db.sequelize.sync().then(() => {
+    db.sequelize.sync(
+        // { force: true }
+    ).then(() => {
         //sync session store with db
         sessionStore.sync().then(() => {
             app.listen(3001, () => {

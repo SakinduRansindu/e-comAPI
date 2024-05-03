@@ -16,6 +16,7 @@
 
 const Product = require('../models').Product;
 const ProductImgs = require('../models').ProductImgs;
+const Seller = require('../models').Seller;
 
 async function addProduct(req, res) {
     const { Category, AvailableUnits, DisplayName, Description, UnitPrice, Discount, DiscountEndDate } = req.body;
@@ -140,10 +141,25 @@ async function getProducts(req, res) {
 
         if (Object.keys(whereClause).length > 0) {
             products = await Product.findAll({
-            where: whereClause
+            where: whereClause,
+            include: [{
+                model: Seller,
+                attributes: {
+                    exclude: ['HashedPassword', 'Email', 'Bank_Acc_No', 'Phone_No']
+                }
+            }]
             });
         } else {
-            products = await Product.findAll();
+            products = await Product.findAll(
+            {
+                include: [{
+                    model: Seller,
+                    attributes: {
+                        exclude: ['HashedPassword', 'Email', 'Bank_Acc_No', 'Phone_No']
+                    }
+                }]
+            }
+            );
         }
 
         return res.status(200).json({ products });
@@ -160,7 +176,13 @@ async function getProductDetails(req, res) {
         let product = await Product.findOne({
             where: {
                 ProductId: productId
-            }
+            },
+            include: [{
+                model: Seller,
+                attributes: {
+                    exclude: ['HashedPassword', 'Email', 'Bank_Acc_No', 'Phone_No']
+                }
+            }]
         });
 
         return res.status(200).json({ product });

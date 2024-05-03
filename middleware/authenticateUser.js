@@ -41,7 +41,7 @@ async function authenticateUser(req, res, next) {
     }
 
     console.log("decoded",decoded)
-    const user = decoded.role === 'User' ? await User.findByPk(decoded.id) : await Seller.findByPk(decoded.id);
+    const user = decoded.role === 'customer' ? await User.findByPk(decoded.id) : await Seller.findByPk(decoded.id);
 
     if (!user) {
       return res.status(401).json({ message: 'Unauthorized ...' });

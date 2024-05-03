@@ -5,9 +5,9 @@ const orderController = require('../controllers/orderController');
 
 const router = express.Router();
 
-router.get('/', authenticateUser, roleFilter(['Seller']), orderController.getSellerOrdersList);
-router.post('/setState/:id', authenticateUser, roleFilter(['Seller']), orderController.setOrderState);
+router.get('/', authenticateUser, roleFilter(['seller']), orderController.getSellerOrdersList);
+router.post('/setState/:id', authenticateUser, roleFilter(['seller']), orderController.setOrderState);
 
-router.get('/customer', authenticateUser, roleFilter(['User']), orderController.getCustomerOrdersList);
+router.get('/customer', authenticateUser, roleFilter(['customer']), orderController.getCustomerOrdersList);
 
 module.exports = router;

@@ -6,6 +6,6 @@ const { makePurchase } = require('../controllers/purchaseController');
 const router = express.Router();
 
 // make a new purchase
-router.post('/', authenticateUser, roleFilter(['User']), makePurchase);
+router.post('/', authenticateUser, roleFilter(['customer']), makePurchase);
 
 module.exports = router;

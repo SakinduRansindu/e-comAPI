@@ -39,10 +39,17 @@ async function addProduct(req, res) {
             DiscountEndDate
         });
 
-        if (req.files && req.files.length > 0) {
+        // console.log('Product added successfully');
+        // console.log("product",product);
+        // console.log("productid",product.dataValues.ProductId);
+
+        if (req.files && req.files.length > 0) 
             const imgs = req.files.map(file => ({ imgUrl: file.filename }));
-            console.log(product);
-            await ProductImgs.bulkCreate(imgs.map(img => ({ ...img, ProductId: product.ProductId })));
+
+
+            await ProductImgs.bulkCreate(imgs.map(img => ({ ...img, ProductId: product.dataValues.ProductId })));
+            console.log('Images added successfully');
+
         }
         return res.status(200).json({ message: 'Product added successfully', product });
     } catch (error) {
@@ -147,6 +154,7 @@ async function getProducts(req, res) {
                 model: Seller,
                 attributes: {
                     exclude: ['HashedPassword', 'Email', 'Bank_Acc_No', 'Phone_No']
+
                 }
             },
             {
@@ -156,6 +164,7 @@ async function getProducts(req, res) {
                 }
             },
         ]
+
             });
         } else {
             products = await Product.findAll(
@@ -163,7 +172,7 @@ async function getProducts(req, res) {
                 include: [{
                     model: Seller,
                     attributes: {
-                        exclude: ['HashedPassword', 'Email', 'Bank_Acc_No', 'Phone_No']
+                        
                     }
                 },
                 {
@@ -173,6 +182,7 @@ async function getProducts(req, res) {
                     }
                 },
             ]
+
             }
             );
         }
@@ -195,7 +205,8 @@ async function getProductDetails(req, res) {
                 model: Seller,
                 attributes: {
                     exclude: ['HashedPassword', 'Email', 'Bank_Acc_No', 'Phone_No']
-                }
+                },
+                model: ProductImgs
             }]
         });
 

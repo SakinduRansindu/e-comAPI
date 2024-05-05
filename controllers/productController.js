@@ -45,8 +45,10 @@ async function addProduct(req, res) {
 
         if (req.files && req.files.length > 0) {
             const imgs = req.files.map(file => ({ imgUrl: file.filename }));
+
             await ProductImgs.bulkCreate(imgs.map(img => ({ ...img, ProductId: product.dataValues.ProductId })));
             console.log('Images added successfully');
+
         }
         return res.status(200).json({ message: 'Product added successfully', product });
     } catch (error) {
@@ -151,10 +153,16 @@ async function getProducts(req, res) {
                 model: Seller,
                 attributes: {
                     exclude: ['HashedPassword', 'Email', 'Bank_Acc_No', 'Phone_No']
-                },
-                model: ProductImgs
-            }]
-            });
+                }
+            },
+            {
+                model: ProductImgs,
+                attributes: {
+                    exclude: ['imgId',]
+                }
+            },
+            ]
+        });
         } else {
             products = await Product.findAll(
             {
@@ -162,11 +170,15 @@ async function getProducts(req, res) {
                     model: Seller,
                     attributes: {
                         exclude: ['HashedPassword', 'Email', 'Bank_Acc_No', 'Phone_No']
-                    },
-                    model: ProductImgs
-                }]
-            }
-            );
+                    }
+                },
+                {
+                    model: ProductImgs,
+                    attributes: {
+                        exclude: []
+                    }
+                },
+             ]});
         }
 
         return res.status(200).json({ products });
@@ -177,8 +189,7 @@ async function getProducts(req, res) {
 }
 
 async function getProductDetails(req, res) {
-    const { productId } = req.body;
-    console.log(req.body)
+    const { productId } = req.query;
     try {
         let product = await Product.findOne({
             where: {
@@ -188,7 +199,8 @@ async function getProductDetails(req, res) {
                 model: Seller,
                 attributes: {
                     exclude: ['HashedPassword', 'Email', 'Bank_Acc_No', 'Phone_No']
-                },
+                }                
+            }, {
                 model: ProductImgs
             }]
         });

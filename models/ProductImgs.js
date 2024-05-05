@@ -8,6 +8,7 @@ module.exports = (sequelize,DataTypes)=>{
           primaryKey: true,
           autoIncrement: true
         },
+        ProductId:DataTypes.INTEGER,
         imgUrl: DataTypes.STRING
       });
       

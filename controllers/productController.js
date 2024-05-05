@@ -43,9 +43,8 @@ async function addProduct(req, res) {
         // console.log("product",product);
         // console.log("productid",product.dataValues.ProductId);
 
-        if (req.files && req.files.length > 0) 
+        if (req.files && req.files.length > 0) {
             const imgs = req.files.map(file => ({ imgUrl: file.filename }));
-
 
             await ProductImgs.bulkCreate(imgs.map(img => ({ ...img, ProductId: product.dataValues.ProductId })));
             console.log('Images added successfully');
@@ -154,7 +153,6 @@ async function getProducts(req, res) {
                 model: Seller,
                 attributes: {
                     exclude: ['HashedPassword', 'Email', 'Bank_Acc_No', 'Phone_No']
-
                 }
             },
             {
@@ -163,16 +161,15 @@ async function getProducts(req, res) {
                     exclude: ['imgId',]
                 }
             },
-        ]
-
-            });
+            ]
+        });
         } else {
             products = await Product.findAll(
             {
                 include: [{
                     model: Seller,
                     attributes: {
-                        
+                        exclude: ['HashedPassword', 'Email', 'Bank_Acc_No', 'Phone_No']
                     }
                 },
                 {
@@ -181,10 +178,7 @@ async function getProducts(req, res) {
                         exclude: []
                     }
                 },
-            ]
-
-            }
-            );
+             ]});
         }
 
         return res.status(200).json({ products });
@@ -205,7 +199,8 @@ async function getProductDetails(req, res) {
                 model: Seller,
                 attributes: {
                     exclude: ['HashedPassword', 'Email', 'Bank_Acc_No', 'Phone_No']
-                },
+                }                
+            }, {
                 model: ProductImgs
             }]
         });

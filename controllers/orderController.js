@@ -68,7 +68,13 @@ async function setOrderState(req, res) {
 
 async function getCustomerOrdersList(req, res) {
     const UId = req.user.UId;
-    const purchase = await Purchase.findAll({ where: { UId: UId } });
+    const purchase = await Purchase.findAll(
+        { where: { 
+            UId: UId 
+        },
+         include: [
+            { model: Product }
+        ]},);
     if (!purchase) {
         return res.status(404).json({ message: 'No orders found' });
     }

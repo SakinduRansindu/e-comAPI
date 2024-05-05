@@ -12,6 +12,7 @@
 
 const Purchase = require("../models").Purchase;
 const Product = require("../models").Product;
+const User = require("../models").User;
 
 
 async function getSellerOrdersList(req, res) {
@@ -20,7 +21,12 @@ async function getSellerOrdersList(req, res) {
         include: [{ 
             model: Product, 
             where: { SId: SId } 
-        }] 
+        }, {
+            model: User, // user is customer
+            attributes: ['UId', 'FirstName', 'LastName' ,'Email', 'Phone_No']
+        }
+    
+    ] 
     });
     if (!purchases) {
         return res.status(404).json({ message: 'No orders found' });

@@ -4,7 +4,7 @@
     "password": "6dZ6zK36vL7LjJOUchqcN32c52lJnKRD",
     "database": "ecomdb_ymjj",
     "host": "dpg-cpg5dp8l5elc738nnkl0-a",
-    "dialect": "postgresql",
+    "dialect": "postgres",
     "port": 5432,
     "jwtSecret": "secret"
   },
@@ -13,7 +13,7 @@
     "password": "6dZ6zK36vL7LjJOUchqcN32c52lJnKRD",
     "database": "ecomdb_ymjj",
     "host": "dpg-cpg5dp8l5elc738nnkl0-a",
-    "dialect": "postgresql",
+    "dialect": "postgres",
     "port": 5432,
     "jwtSecret": "secret"
   },
@@ -22,7 +22,7 @@
     "password": "6dZ6zK36vL7LjJOUchqcN32c52lJnKRD",
     "database": "ecomdb_ymjj",
     "host": "dpg-cpg5dp8l5elc738nnkl0-a",
-    "dialect": "postgresql",
+    "dialect": "postgres",
     "port": 5432,
     "jwtSecret": "secret"
   }

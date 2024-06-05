@@ -1,25 +1,29 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "ecomdb",
-    "host": "localhost",
-    "dialect": "mysql",
-    "port": 3306,
+    "username": "user",
+    "password": "6dZ6zK36vL7LjJOUchqcN32c52lJnKRD",
+    "database": "ecomdb_ymjj",
+    "host": "dpg-cpg5dp8l5elc738nnkl0-a",
+    "dialect": "postgres",
+    "port": 5432,
     "jwtSecret": "secret"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "user",
+    "password": "6dZ6zK36vL7LjJOUchqcN32c52lJnKRD",
+    "database": "ecomdb_ymjj",
+    "host": "dpg-cpg5dp8l5elc738nnkl0-a",
+    "dialect": "postgres",
+    "port": 5432,
+    "jwtSecret": "secret"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "user",
+    "password": "6dZ6zK36vL7LjJOUchqcN32c52lJnKRD",
+    "database": "ecomdb_ymjj",
+    "host": "dpg-cpg5dp8l5elc738nnkl0-a",
+    "dialect": "postgres",
+    "port": 5432,
+    "jwtSecret": "secret"
   }
 }

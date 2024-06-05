@@ -1,0 +1,89 @@
+[debug] [2024-05-09T12:43:21.264Z] ----------------------------------------------------------------------
+[debug] [2024-05-09T12:43:21.267Z] Command:       D:\installed\NodeJs\node.exe C:\Users\sakin\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init hosting
+[debug] [2024-05-09T12:43:21.267Z] CLI Version:   13.8.1
+[debug] [2024-05-09T12:43:21.268Z] Platform:      win32
+[debug] [2024-05-09T12:43:21.268Z] Node Version:  v20.10.0
+[debug] [2024-05-09T12:43:21.268Z] Time:          Thu May 09 2024 18:13:21 GMT+0530 (India Standard Time)
+[debug] [2024-05-09T12:43:21.268Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-09T12:43:21.275Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-09T12:43:21.275Z] > authorizing via signed-in user (sakindu.ransindu@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  E:\NodeJs\E-CommerceAPI
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2024-05-09T12:43:30.056Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2024-05-09T12:43:31.611Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2024-05-09T12:43:31.611Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project data-storm (data-storm) 
+[info] 
+=== Hosting Setup
+[debug] [2024-05-09T12:43:31.644Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/data-storm [none]
+[debug] [2024-05-09T12:43:32.378Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/data-storm 200
+[debug] [2024-05-09T12:43:32.378Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/data-storm {"projectId":"data-storm","projectNumber":"335929764980","displayName":"data-storm","name":"projects/data-storm","resources":{"hostingSite":"data-storm","realtimeDatabaseInstance":"data-storm","storageBucket":"data-storm.appspot.com","locationId":"us-central"},"state":"ACTIVE","etag":"1_78826ea6-89c5-4384-8135-0096517de200"}
+[debug] [2024-05-09T12:43:34.840Z] SyntaxError: Unexpected token 'T', "Terminate "... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at findDependency (C:\Users\sakin\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\utils.js:188:23)
+    at getAstroVersion (C:\Users\sakin\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\astro\utils.js:39:45)
+    at discover (C:\Users\sakin\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\astro\index.js:17:49)
+    at discover (C:\Users\sakin\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\index.js:47:38)
+    at async doSetup (C:\Users\sakin\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\features\hosting\index.js:54:11)
+    at async init (C:\Users\sakin\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\index.js:38:9)
+[debug] [2024-05-09T12:43:39.599Z] ----------------------------------------------------------------------
+[debug] [2024-05-09T12:43:39.602Z] Command:       D:\installed\NodeJs\node.exe C:\Users\sakin\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init hosting
+[debug] [2024-05-09T12:43:39.602Z] CLI Version:   13.8.1
+[debug] [2024-05-09T12:43:39.603Z] Platform:      win32
+[debug] [2024-05-09T12:43:39.603Z] Node Version:  v20.10.0
+[debug] [2024-05-09T12:43:39.603Z] Time:          Thu May 09 2024 18:13:39 GMT+0530 (India Standard Time)
+[debug] [2024-05-09T12:43:39.603Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-09T12:43:39.610Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-09T12:43:39.610Z] > authorizing via signed-in user (sakindu.ransindu@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  E:\NodeJs\E-CommerceAPI
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2024-05-09T12:43:45.350Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2024-05-09T12:43:46.642Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2024-05-09T12:43:46.643Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project e-commerce-3c2cb (e-commerce) 
+[info] 
+=== Hosting Setup
+[debug] [2024-05-09T12:43:49.610Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/e-commerce-3c2cb [none]
+[debug] [2024-05-09T12:43:50.113Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/e-commerce-3c2cb 200
+[debug] [2024-05-09T12:43:50.114Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/e-commerce-3c2cb {"projectId":"e-commerce-3c2cb","projectNumber":"863182789482","displayName":"e-commerce","name":"projects/e-commerce-3c2cb","resources":{"hostingSite":"e-commerce-3c2cb"},"state":"ACTIVE","etag":"1_ec3920e1-e41d-4661-a0d7-32356cb5b0c1"}
+[debug] [2024-05-09T12:46:31.035Z] Error: Command failed: npx --yes -p @angular/cli@"14 - 17" ng new e-commerce-3c2cb --directory hosting --skip-git
+    at checkExecSyncError (node:child_process:890:11)
+    at execSync (node:child_process:962:15)
+    at Object.init (C:\Users\sakin\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\angular\index.js:29:34)
+    at doSetup (C:\Users\sakin\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\features\hosting\index.js:120:76)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async init (C:\Users\sakin\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\index.js:38:9)

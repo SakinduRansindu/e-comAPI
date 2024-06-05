@@ -73,8 +73,8 @@ Session.belongsTo(Seller);;
 Product.hasMany(Purchase, { foreignKey: 'ProductId' });
 Purchase.belongsTo(Product, { foreignKey: 'ProductId' });
 
-createDatabaseIfNotExists().then(() => {
-    db.sequelize.sync(
+
+db.sequelize.sync(
         // { force: true }
     ).then(() => {
         //sync session store with db
@@ -89,7 +89,3 @@ createDatabaseIfNotExists().then(() => {
         console.error('Error syncing database:', error);
         throw error;
     });
-}).catch((error) => {
-    console.error('Error creating database:', error);
-    throw error;
-});

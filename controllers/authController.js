@@ -7,6 +7,7 @@ var User = require('../models').User;
 var Seller = require('../models').Seller;
 var Session = require('../models').Session;
 const jwt = require('jsonwebtoken');
+const { INTEGER, STRING } = require('sequelize');
 
 async function registerUser(req, res) {
   const { uname, FirstName, LastName, Email, Password, Account_No, Card_CVC, Card_Exp, Phone_No, ProfilePicture } = req.body;
@@ -51,6 +52,7 @@ async function registerUser(req, res) {
     });
 
     const token = generateJWT(newUser);
+    console.log("NEW User ID",newUser.UId);
 
     // create session
     await Session.create({
@@ -109,11 +111,13 @@ async function registerSeller(req, res) {
 
     // create session
     await Session.create({
-        userId: newSeller.UId,
+        userId: newSeller.SId,
         role: 'seller',
         expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
         jwt: token
     }); 
+
+    console.log("NEW Seller ID",newSeller);
 
     res.status(201)
     .cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' })
@@ -163,7 +167,7 @@ async function login(req, res) {
         id = user ? user.UId : seller.SId;
         const token = generateJWT(userInfo);
         // if there is an existing session, delete it
-        await Session.destroy({ where: { userId: id } });
+        await Session.destroy({ where: { userId: toString(id,10)} });
 
         // create session
         await Session.create({
@@ -216,7 +220,7 @@ async function logout(req, res) {
     }
 
     // find the user session and delete it
-    await Session.destroy({ where: { userId: decoded.id } });
+    await Session.destroy({ where: { userId: toString(decoded.id,10)} });
 
     res.clearCookie('jwt');
 

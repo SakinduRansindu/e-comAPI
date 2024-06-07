@@ -90,7 +90,7 @@ Session.belongsTo(Seller);;
 Product.hasMany(Purchase, { foreignKey: 'ProductId' });
 Purchase.belongsTo(Product, { foreignKey: 'ProductId' });
 
-
+createDatabaseIfNotExists().then(() => {
 db.sequelize.sync(
         { force: process.env.PERSISTENCE=='0' }
     ).then(() => {
@@ -106,3 +106,7 @@ db.sequelize.sync(
         console.error('Error syncing database:', error);
         throw error;
     });
+}).catch((error) => {
+    console.error('Error creating database:', error);
+    // throw error;     // Commented out to prevent the app from crashing when the PostgreSQL is using
+});

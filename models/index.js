@@ -5,6 +5,8 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const process = require('process');
 const basename = path.basename(__filename);
+const dotenv = require('dotenv');
+dotenv.config({ path: './.env' });
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
@@ -12,9 +14,9 @@ const db = {};
 let sequelize;
 
 
-if (config.use_env_variable!='') {
-  console.log("Connection URL",config.connectionURL);
-  sequelize = new Sequelize(config.connectionURL, config);
+if(process.env.CONNECTION_URL!='') {
+  console.log("Connection URL",process.env.CONNECTION_URL);
+  sequelize = new Sequelize(config.CONNECTION_URL, config);
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }

@@ -14,7 +14,7 @@ const db = {};
 let sequelize;
 
 
-if(process.env.CONNECTION_URL!='') {
+if(process.env.CONNECTION_URL!=undefined) {
   console.log("Connection URL",process.env.CONNECTION_URL);
   sequelize = new Sequelize(config.CONNECTION_URL, config);
 } else {

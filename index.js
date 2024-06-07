@@ -3,8 +3,11 @@ const session = require('express-session');
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 var cookieParser = require('cookie-parser')
 const path = require('path');
+const dotenv = require('dotenv'); 
 const cors = require('cors');
 
+
+dotenv.config({ path: './.env' }); 
 
 const createDatabaseIfNotExists = require('./utils/createDatabaseIfNotExists');
 const db = require('./models')
@@ -12,7 +15,11 @@ const upload = require('./utils/multerConfig');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+     }));
+     console.log("process.env.CLIENT_URL",process.env.CLIENT_URL);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

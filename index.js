@@ -3,6 +3,8 @@ const session = require('express-session');
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 var cookieParser = require('cookie-parser')
 const path = require('path');
+const cors = require('cors');
+
 
 const createDatabaseIfNotExists = require('./utils/createDatabaseIfNotExists');
 const db = require('./models')
@@ -10,12 +12,20 @@ const upload = require('./utils/multerConfig');
 
 const app = express();
 
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+//   });
 
 function extendDefaultFields(defaults, session) {
     return {
@@ -75,7 +85,7 @@ Purchase.belongsTo(Product, { foreignKey: 'ProductId' });
 
 
 db.sequelize.sync(
-        { force: true }
+        // { force: true }
     ).then(() => {
         //sync session store with db
         sessionStore.sync().then(() => {

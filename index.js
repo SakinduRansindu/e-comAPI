@@ -92,7 +92,7 @@ Purchase.belongsTo(Product, { foreignKey: 'ProductId' });
 
 
 db.sequelize.sync(
-        // { force: true }
+        { force: process.env.PERSISTENCE=='0' }
     ).then(() => {
         //sync session store with db
         sessionStore.sync().then(() => {

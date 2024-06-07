@@ -119,17 +119,28 @@ async function deleteProduct(req, res) {
 }
 
 async function getProducts(req, res) {
-    const { category, sellerName, SId, productName } = req.body;
+    const { category, sellerName, SId, productName ,limit , offset } = req.query;
+    let _limit=50;
+    let _offset=0;
+    console.log("limit",limit);
+    console.log("offset",offset);
+
     try {
-      
+        if(!(limit == undefined || offset == undefined)){
+            _limit = parseInt(limit,10);
+            _offset = parseInt(offset,10);
+        }
+        if(limit > 50){
+            _limit = 50;
+        }
         // products can be fetched either by category, seller name or product name or all 
         let products = [];
         let whereClause = {};
+        
 
         if (category) {
             whereClause.Category = category;
         }
-
         if (sellerName) {
             whereClause.DisplayName = {
             [Op.like]: `%${sellerName}%`
@@ -148,6 +159,8 @@ async function getProducts(req, res) {
 
         if (Object.keys(whereClause).length > 0) {
             products = await Product.findAll({
+            offset: _offset, limit: _limit,
+            order: [["updatedAt", "DESC"]],
             where: whereClause,
             include: [{
                 model: Seller,
@@ -166,6 +179,8 @@ async function getProducts(req, res) {
         } else {
             products = await Product.findAll(
             {
+                offset: _offset, limit: _limit,
+                order: [["updatedAt", "DESC"]],
                 include: [{
                     model: Seller,
                     attributes: {

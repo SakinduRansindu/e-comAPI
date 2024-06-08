@@ -8,15 +8,16 @@ const basename = path.basename(__filename);
 const dotenv = require('dotenv');
 dotenv.config({ path: './.env' });
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+const config = require('../config/config')[env];
 const db = {};
 
 let sequelize;
 
+console.log(config);
 
 if(process.env.CONNECTION_URL!=undefined) {
   console.log("Connection URL",process.env.CONNECTION_URL);
-  sequelize = new Sequelize(config.CONNECTION_URL, config);
+  sequelize = new Sequelize(process.env.CONNECTION_URL, config);
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }

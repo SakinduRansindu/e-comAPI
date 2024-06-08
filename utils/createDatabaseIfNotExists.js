@@ -1,8 +1,14 @@
 const mysql = require('mysql2/promise');
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+const config = require('../config/config')[env];
 
-async function createDatabaseIfNotExists() {
+console.log(config);
+
+async function createDatabaseIfNotExists(skip=false) {
+    if (skip) {
+      console.log('Skipping database creation.');
+      return;
+    }
     try {
       const connection = await mysql.createConnection({
         host: config.host,

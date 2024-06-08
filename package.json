@@ -4,12 +4,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build": "webpack",
+    "prod": "node dist/index.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "connect-session-sequelize": "^7.1.7",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
@@ -18,11 +21,15 @@
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.9.7",
     "path": "^0.12.7",
+    "pg": "^8.12.0",
+    "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.3",
     "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
   },
   "keywords": [],
   "author": "",
